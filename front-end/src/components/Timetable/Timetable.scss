@@ -1,0 +1,247 @@
+@import "./src/data/constant";
+
+.timetable-header, .timetable-days{
+    display: flex;
+    width: 100%;
+}
+
+.timetable-time, .cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.cell {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 48px;
+    padding: 2.5px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+        .lock {
+            display: flex;
+        }
+    }
+
+    .lock, .locked {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+
+        svg {
+            margin: auto;
+        }
+    }
+
+    .lock {
+        display: none;
+
+        &.lock_course {
+            opacity: 0.4;
+
+            svg {
+                margin: auto 2.5px auto auto;
+            }
+        }
+    }
+
+    .locked {
+        display: flex;
+    }
+
+    .room {
+        font-weight: bold;
+    }
+}
+
+$accents: (
+        pink: adjust-hue($accent-base, -180%),
+        orange: adjust-hue($accent-base, -120%),
+        green: adjust-hue($accent-base, -60%),
+        cyan: $accent-base,
+        blue: adjust-hue($accent-base, 60%),
+        purple: adjust-hue($accent-base, 120%),
+        amber: #FFBF00,
+        forestgreen: #228b22,
+        maroon: #800000,
+        red: red
+);
+
+@mixin make-tiles{
+    @each $name, $value in $accents{
+        .accent-#{$name}-gradient{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            border-left: 5px solid $value !important;
+            background: transparentize($value, .75);
+            transition: .2s ease box-shadow, .2s ease transform;
+            &:hover{
+                box-shadow: 0 20px 30px 0 transparentize($value, 0.7);
+                transform: scale(1.05);
+            }
+        }
+    }
+}
+
+.timetable{
+    @include make-tiles;
+    position: relative;
+    display: grid;
+    grid-area: 1 / 2 / 2 / auto;
+    grid-template-areas: ". week"
+                         "time content";
+    grid-template-columns: 120px;
+    grid-template-rows: 50px;
+    height: 100%;
+    margin-left: 25px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+
+    .weekend {
+        background: lighten($porcelain, 5%);
+        color: lighten($cutty-sark, 20%);
+    }
+
+    .timetable-header {
+        display: flex;
+        grid-area: timetable-header;
+
+        .combinations, .arrows{
+            margin: auto 20px;
+        }
+
+        .conflict {
+            display: flex;
+            color: red;
+            font-size: 15px;
+            font-weight: bold;
+
+            & > * {
+                margin: auto 2.5px;
+            }
+        }
+
+        .save {
+            margin: auto 20px auto auto;
+            background-color: #04AA6D!important;
+            border-radius: 5px;
+            font-size: 17px;
+            font-family: 'Source Sans Pro', sans-serif;
+            padding: 6px 18px;
+            color: white;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #049b64 !important;
+            }
+        }
+
+        .combinations {
+        }
+
+        .arrows {
+            svg {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .week-names{
+        grid-area: week;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        text-transform: uppercase;
+        grid-template-rows: 60px;
+        font-size: 12px;
+        & > div{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            border-left: solid 1px $porcelain;
+        }
+    }
+    .time-interval{
+        grid-area: time;
+        display: grid;
+        // 6 time intervals
+        grid-template-rows: repeat(13, 1fr);
+        font-size: 14px;
+        & > div{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            border-top: solid 1px $porcelain;
+        }
+    }
+    .content{
+        grid-area: content;
+        display: grid;
+        grid-template-rows: repeat(13, 1fr);
+        grid-template-columns: repeat(5, 1fr);
+        & > div{
+            border-left: solid 1px $porcelain;
+            border-top: solid 1px $porcelain;
+        }
+    }
+}
+
+@media (max-width: #{$tablet-width - 1px}) {
+    .timetable {
+        width: 100%;
+        margin-left: 0px;
+        grid-template-columns: 30px;
+        grid-area: 3 / 1 / auto / 1;
+
+        .timetable-time-text {
+            transform: rotate( 270deg );
+        }
+
+        .time-interval {
+            font-size: 11px;
+        }
+
+        .timetable-header {
+            font-size: 13px;
+
+            .combinations, .arrows {
+                margin: auto 5px;
+            }
+        }
+
+        .cell {
+            font-size: 12px;
+        }
+
+        .save {
+            display: none;
+        }
+    }
+
+    .course-filter {
+        .header {
+            font-size: 14px;
+        }
+
+        .section-list, .lecturer-list {
+            font-size: 13px !important;
+        }
+    }
+}
+
+@media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    .timetable {
+        width: 100%;
+        margin-left: 0px;
+        grid-area: 3 / 1 / auto / 1;
+    }
+}

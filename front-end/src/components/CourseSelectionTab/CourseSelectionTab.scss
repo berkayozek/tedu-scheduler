@@ -1,0 +1,17 @@
+.courses {
+    background-color: white;
+    padding: 7.5px;
+    margin-bottom: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+
+    div {
+        margin: 5px 0px;
+    }
+
+    .course-selector {
+        .MuiAutocomplete-tag {
+            border-radius: 7.5px;
+            margin-right: 5px;
+        }
+    }
+}

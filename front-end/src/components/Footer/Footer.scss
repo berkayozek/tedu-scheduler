@@ -1,0 +1,107 @@
+@import "./src/data/constant";
+
+.footer {
+  width: 100%;
+  display: grid;
+  margin-top: 20px;
+  grid-area: 2 / 1 / auto / 3;
+
+  .mui-button {
+    color: black;
+  }
+
+  .left-footer {
+    display: flex;
+    grid-area: 1 / 1 / auto / 2;
+
+    div {
+      margin: 0px 5px;
+      cursor: pointer;
+      display: flex;
+
+      button {
+        margin: auto;
+      }
+    }
+
+    a{
+      display: flex;
+      color: inherit;
+    }
+  }
+
+  .middle-footer {
+    margin: 0px auto;
+    cursor: default;
+    grid-area: 1 / 2 / auto / 4;
+    user-select: none; /* supported by Chrome and Opera */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+
+    .pagination {
+      display: flex;
+
+      .numbers {
+        display: flex;
+        align-items: flex-end;
+        margin: auto;
+        min-width: 50px;
+        justify-content: space-between;
+
+        .current-index, .slash {
+          font-size: 30px;
+          font-weight: bold;
+        }
+
+        .total-index {
+          font-size: 20px;
+        }
+      }
+
+      .left-icon, .right-icon {
+        font-size: 30px;
+        font-weight: bold;
+        width: 1em;
+        height: 1em;
+        cursor: pointer;
+        margin: auto;
+      }
+    }
+
+    .text {
+      font-size: 16px;
+      text-align: center;
+      margin-top: 5px;
+    }
+  }
+
+  .right-footer {
+    display: flex;
+    flex-direction: row-reverse;
+    grid-area: 1 / 4 / auto / 5;
+    justify-self: flex-end;
+
+    .camera {
+      font-size: 30px;
+      cursor: pointer;
+      margin: auto;
+    }
+  }
+}
+
+@media (max-width: #{$desktop-width - 1px}) {
+  .footer {
+    grid-area: 2 / 1 / auto / 1;
+
+      .left-footer {
+        div {
+          button {
+              padding: 0px;
+          }
+        }
+      }
+  }
+}
+

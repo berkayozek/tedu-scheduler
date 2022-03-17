@@ -1,0 +1,25 @@
+@import "./src/data/constant";
+
+.left-table {
+  display: flex;
+  grid-area: left-table;
+  flex-direction: column;
+  width: 350px;
+  max-height: 674px;
+  grid-area: 1 / 1 / auto / auto;
+  height: 100%;
+}
+
+@media (max-width: #{$tablet-width - 1px}) {
+  .left-table {
+    width: 100%;
+    margin: 0px 0px 10px 0px
+  }
+}
+
+@media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+  .left-table {
+    width: 100%;
+    margin: 0px 0px 10px 0px
+  }
+}

@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import "./src/data/constant";
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', cursive;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+#root {
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+@media (max-width: #{$desktop-width - 1px}) {
+  #root {
+    //display: block;
+    min-height: 100vh;
+    padding: 20px;
+  }
+}
+

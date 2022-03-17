@@ -1,0 +1,32 @@
+.advanced-filter {
+  .filter-button {
+    font-size: 25px;
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
+    color: black;
+
+    &:hover {
+      color: #5d5b5b;
+    }
+  }
+}
+
+.filter-list {
+  .filter {
+    display: flex;
+    height: 35px;
+
+    .filter-name {
+      margin-right: auto;
+    }
+
+    .filter-buttons {
+      display: flex;
+
+      .toggle-button {
+        margin: auto;
+      }
+    }
+  }
+}

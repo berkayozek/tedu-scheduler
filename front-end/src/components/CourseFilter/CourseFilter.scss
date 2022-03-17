@@ -1,0 +1,141 @@
+.course-filter {
+  height: 100%;
+  background-color: white;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+
+  .header {
+    display: flex;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: solid rgba(0, 0, 0, 0.15) 1px;
+    padding: 7.5px;
+
+    .header-text {
+      margin: auto auto auto 0px;
+    }
+  }
+
+  .course-filter-list {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    overflow:auto;
+    height: calc(100% - 60px);
+
+
+    .course-not-selected {
+      padding: 7.5px;
+    }
+
+    .course {
+      margin: 0px;
+
+      .course-header {
+        display: flex;
+        padding: 0px;
+        box-shadow: none;
+
+        .course-header-code {
+          display: flex;
+          font-size: 16px;
+          border-right: solid rgba(0, 0, 0, 0.15) 1px;
+          padding: 5px;
+          margin-right: 5px;
+          width: 100px;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .course-detail {
+          display: flex;
+          flex-direction: column;
+          padding: 5px;
+          max-width: calc(100% - 105px);
+
+          .course-detail-name {
+            font-size: 14px;
+          }
+
+          .course-detail-lecturer {
+            font-size: 12px;
+            color: #585858;
+          }
+        }
+
+        .conflict {
+          color: red;
+          font-weight: bold;
+        }
+      }
+
+      .course-content {
+        display: flex;
+        flex-direction: column;
+        transition: 1ms;
+
+        &.expand {
+          height: auto;
+        }
+
+        .section-list {
+          display: flex;
+          justify-content: space-between;
+          flex-flow: wrap;
+          font-size: 14px;
+
+          .section {
+            display: flex;
+            flex-direction: column;
+            width: 90px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+          }
+        }
+
+        .lecturer-list {
+          display: flex;
+          justify-content: space-between;
+          flex-flow: wrap;
+          font-size: 14px;
+
+          .lecturer {
+            display: flex;
+            flex-direction: column;
+            width: 90px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+          }
+        }
+      }
+
+      &:not(:last-child) {
+        border-bottom: solid rgba(0, 0, 0, 0.15) 1px;
+      }
+    }
+
+    // Scrollbar
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background: rgba(0,0,0,0.1);
+      border: 1px solid #ccc;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: linear-gradient(left, #fff, #e4e4e4);
+      border: 1px solid #aaa;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #fff;
+    }
+    &::-webkit-scrollbar-thumb:active{
+      background: linear-gradient(left, #22ADD4, #1E98BA);
+    }
+  }
+}
