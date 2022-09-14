@@ -1,5 +1,5 @@
 <div align="center">
-    <h3>This project originally belongs to <a href="https://github.com/berkayozek/">@berkayozek</a> and this fork implements several new features onto the project.</h3>
+    <h3>This project originally belongs to <a href="https://github.com/berkayozek/">@berkayozek</a> and this fork only for hosting purposes.</h3>
 </div>
 <div align="center">
     <h1>TEDU Scheduler</h1>
