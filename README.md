@@ -1,11 +1,11 @@
 <div align="center">
-    <a href="https://tr.linkedin.com/in/berkay-ozek"><img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555"></a>
+    <h3>This project originally belongs to <a href="https://github.com/berkayozek/">@berkayozek</a> and this fork implements several new features onto the project.</h3>
 </div>
 <div align="center">
     <h1>TEDU Scheduler</h1>
     <img src="/front-end/public/logo512.png" alt="Logo" width="80" height="80">
     <br>
-    <a href="https://www.teduscheduler.tk/">Project Link</a>
+    <a href="https://emreoyun.tk/apps/teduscheduler">Scheduler Link</a>
 </div>
 
 A scheduler application that generates possible schedules for TED University students.
