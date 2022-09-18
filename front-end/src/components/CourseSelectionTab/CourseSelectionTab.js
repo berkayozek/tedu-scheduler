@@ -97,7 +97,7 @@ const CourseSelectionTab = ({
 
     const openTutorial = (coursesJSON) => {
         Tutorial(closeTutorial)
-        tutorialTempCourseData.push("ART 110")
+        tutorialTempCourseData.push("ARCH 101-O")
         tutorialTempCourseData.push("CMPE 211")
         addCourse(tutorialTempCourseData)
     }
