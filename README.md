@@ -5,7 +5,7 @@
     <h1>TEDU Scheduler</h1>
     <img src="/front-end/public/logo512.png" alt="Logo" width="80" height="80">
     <br>
-    <a href="https://emreoyun.tk/apps/teduscheduler">Scheduler Link</a>
+    <a href="https://emreoyun.tk/apps/teduscheduler">Scheduler Link(Not available right now)</a>
 </div>
 
 A scheduler application that generates possible schedules for TED University students.
@@ -45,16 +45,15 @@ Before building the project, BACKEND_URL which is located in `/frontend/src/conf
 ### Docker
 - `sudo docker build -t tedu-scheduler-frontend  .`
 ### Normal
-- `cd tedu-scheduler/front-end/`
 - `npm install`
 - `npm install -g serve`
 - `npm run build`
+<br>From now on, you can use `build` folder as your root if you are planning to use a hosting.
 
 ## Backend
 ### Docker
 - `sudo docker build --network="host" -t tedu-scheduler-backend  .`
 ### Normal
-- `cd tedu-scheduler/back-end/`
 - `./mvnw package`
 
 
@@ -63,7 +62,6 @@ Before building the project, BACKEND_URL which is located in `/frontend/src/conf
 ### Docker
 - `$ sudo docker run -d -p 0.0.0.0:5000:5000 tedu-scheduler-frontend`
 ### Normal
-- `cd tedu-scheduler/front-end/`
 - `serve -l 5000 build`
 
 ## Backend
