@@ -7,6 +7,8 @@
   display: flex;
   transition: height 0.5s;
   overflow: hidden;
+  justify-content: center;
+  align-items: center;
 
   &.open {
     height: 100vh;
@@ -99,6 +101,12 @@
     top: 0;
     left: 0;
     --translateZ: -90px;
+  }
+  .text {
+    font-size: 16px;
+    text-align: center;
+    margin-top: 200px;
+    position: absolute;
   }
 
 

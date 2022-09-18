@@ -43,8 +43,10 @@ const Footer = ({ timetableData, updateTimetableData, setIsTutorialOpen }) => {
     return(<div className={"footer"}>
         <div className={"left-footer"}>
             <div className={"github"}>
-                <IconButton disabled className={"mui-button"}>
-                    <GitHub />
+                <IconButton className={"mui-button"}>
+                    <a href={"https://github.com/emreoyun"}>
+                        <GitHub />
+                    </a>
                 </IconButton>
             </div>
             <div className={"mail"}>
@@ -82,6 +84,9 @@ const Footer = ({ timetableData, updateTimetableData, setIsTutorialOpen }) => {
             </div>
             <div className={"text"}>
                 Combinations
+            </div>
+            <div className={"text"}>
+                This website is not affiliated with TEDU in any way.<br />It is a project by students for students.
             </div>
 
         </div>

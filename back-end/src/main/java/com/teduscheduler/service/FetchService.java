@@ -1,5 +1,4 @@
 package com.teduscheduler.service;
-
 import com.teduscheduler.config.AppConfig;
 import com.teduscheduler.model.*;
 import com.teduscheduler.repository.RoomRepository;
@@ -9,9 +8,17 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;    
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;  
+import org.apache.poi.ss.usermodel.Cell;  
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;  
+import org.apache.poi.ss.usermodel.Workbook;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,12 +58,12 @@ public class FetchService {
     public boolean fetchCoursesData() {
         try{
             Document doc = Jsoup.connect(appConfig.getOfferedUrl()).get();
-            Element semesterDiv = doc.selectFirst("#edit-dersler-years");
+            Element semesterDiv = doc.selectFirst("#edit-semestr-all");
             saveSemesters(semesterDiv);
 
             List<Semester> semesterList = semesterService.findAll();
             for (Semester semester : semesterList) {
-                saveCourses(semester);
+                readCourses(semester);
             }
             return true;
         }catch (Exception e) {
@@ -82,36 +89,42 @@ public class FetchService {
         }
     }
 
-    private void saveCourses(Semester semester) throws IOException {
-        String url = appConfig.getOfferedUrl() + "/" + semester.getYear() + "/" + semester.getCode();
-        Document doc = Jsoup.connect(url).get();
-        Elements courseDivs = doc.select(".event-row");
-        for (Element element : courseDivs) {
-            String courseNameDivText = element.children().get(0).children().get(1).text();
-            String splittedStr[] = courseNameDivText.split(" - ");
-
-            if (splittedStr.length < 2)
-                continue;
-
-            String courseCode = splittedStr[0].split("_")[0];
-            String courseName = splittedStr[1].split(",")[0];
-            String sectionCode = splittedStr[0];
-//                String courseCredit = splittedStr[1].split(",")[1].split("\\)")[1].split("/")[0];
-
+    private void readCourses(Semester semester) throws IOException {
+        FileInputStream file = new FileInputStream(new File(semester.getYear() + "_" + semester.getCode() + ".xls"));
+        Workbook wb = null;
+        try
+        {
+            wb = new HSSFWorkbook(file);
+        }
+        catch(FileNotFoundException ex)
+        {
+            ex.printStackTrace();
+        }
+        catch(IOException io)
+        {
+            io.printStackTrace();
+        }
+        Sheet sheet = wb.getSheetAt(0);
+        int max = sheet.getLastRowNum()+1;
+        for (int i=1; i<max; i++) {
+            String courseCode = ReadCellData(sheet, i, 1);
+            String courseName = ReadCellData(sheet, i, 2);
+            String sectionCode = ReadCellData(sheet, i, 3);
+            String teachers = ReadCellData(sheet, i, 11);
+            String rooms = ReadCellData(sheet, i, 12);
+            String hours = ReadCellData(sheet, i, 13);
+            System.out.println("Processing " + sectionCode + " for semester " + semester.getYear() + "/" + semester.getCode());
+            List<String> stringList = new ArrayList<String>(Arrays.asList(teachers.split(",")));
             ArrayList<Instructor> instructors = new ArrayList<>();
-            Elements instructorElements = element.child(1).child(1).child(0).children();
-
-            for (Element instructorElement : instructorElements) {
-                Instructor instructor = instructorService.save(new Instructor(instructorElement.text()));
+            for (String a : stringList) {
+                Instructor instructor = instructorService.save(new Instructor(a));
                 instructors.add(instructor);
             }
-
             Section section = new Section();
             section.setInstructors(instructors);
             section.setSectionCode(sectionCode);
             section.setSemester(semester);
-            generateCourseHoursAndRoom(element, section);
-
+            generateCourseHoursAndRoom(section, rooms, hours);
             Course course = courseService.findCourseByCourseCodeAndSemester(courseCode, semester);
 
             if (course == null) {
@@ -127,23 +140,37 @@ public class FetchService {
         }
     }
 
-    private void generateCourseHoursAndRoom(Element element, Section section){
+    public String ReadCellData(Sheet sheet, int vRow, int vColumn) {
+        Row row = sheet.getRow(vRow);
+        Cell cell = row.getCell(vColumn);
+        if (cell == null) {
+            return "";
+        } else {
+            return cell.getStringCellValue();
+        }
+    }
+
+    private void generateCourseHoursAndRoom(Section section, String rooms, String hours){
         ArrayList<CourseHour> courseHourList = new ArrayList<>();
         ArrayList<Room> roomList = new ArrayList<>();
-        Element timeDivs = element.child(3).child(1);
-        for (Element timeDiv: timeDivs.children()) {
-            if (timeDiv.children() != null && timeDiv.children().size() == 1) {
-                String day = timeDiv.child(0).text();
-                String hourSplitted[] = timeDiv.text().split("-");
-                String startHour = hourSplitted[0].split(":")[1].replaceAll("\\s+","");
-                String endHour = hourSplitted[1].split(":")[0].replaceAll("\\s+","");
-                CourseHour courseHour = new CourseHour(day, Integer.parseInt(startHour), Integer.parseInt(endHour));
-
+        List<String> roomlist = new ArrayList<String>(Arrays.asList(rooms.split(" ")));
+        for (String room : roomlist) {
+            Room roomobj = new Room(room);
+            roomList.add(roomService.save(roomobj));
+        }
+        List<String> hourlist = new ArrayList<String>(Arrays.asList(hours.split(" (?=[a-zA-Z]+\\s[0-9]+\\s-\\s[0-9])")));
+        for (String hour : hourlist) {
+            if (hour == ""){
+                CourseHour courseHour = new CourseHour("", 0, 0);
                 courseHourList.add(courseHourService.save(courseHour));
-            } else if (timeDiv.children().size() == 0) {
-                String roomName = timeDiv.text().replaceAll("/","").replaceAll("\\s+","");
-                Room room = new Room(roomName);
-                roomList.add(roomService.save(room));
+            } else {
+            String[] splited = hour.split(" ");
+            String day = splited[0];
+            String startHour = splited[1];
+            int hourfix = Integer.parseInt(splited[3])-1;
+            String endHour = hourfix + "";
+            CourseHour courseHour = new CourseHour(day, Integer.parseInt(startHour), Integer.parseInt(endHour));
+            courseHourList.add(courseHourService.save(courseHour));
             }
         }
         section.setCourseHours(courseHourList);

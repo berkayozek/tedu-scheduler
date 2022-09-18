@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY . /app/
 
-RUN npm install --verbose
+RUN npm install
 
 RUN npm run build
 
-RUN npm install -g serve --loglevel verbose
+RUN npm install -g serve
 
 CMD ["serve", "-l", "5000" ,"build"]

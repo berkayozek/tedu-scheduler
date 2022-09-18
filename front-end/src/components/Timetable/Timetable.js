@@ -13,11 +13,11 @@ const Timetable = ({
     timetableData
     }) => {
 
-    const [matrix, setMatrix] = useState(Array.from({length: 13},()=> Array.from({length: 5}, () => null)));
+    const [matrix, setMatrix] = useState(Array.from({length: 13},()=> Array.from({length: 7}, () => null)));
 
     const updateMatrix = ( ) => {
         const {timetable, timetableIndex} = timetableData
-        let copy = Array.from({length: 13},()=> Array.from({length: 5}, () => null));
+        let copy = Array.from({length: 13},()=> Array.from({length: 7}, () => null));
         colorIndex = 0
 
         if (timetable.length > 0 && timetable[timetableIndex]) {
@@ -78,7 +78,7 @@ const Timetable = ({
                 {matrix.map((row, rowIndex) =>
                     <div key={"time" + rowIndex} className={"timetable-time"}>
                         <div className={"timetable-time-text"}>
-                            {(startTime+rowIndex) + ":00"}
+                            {(startTime+rowIndex) + ":00 - " + (startTime+rowIndex) + ":50"}
                         </div>
                     </div>
                 )}

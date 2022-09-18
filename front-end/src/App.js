@@ -9,7 +9,7 @@ import {useLocalStorage} from "react-use";
 const App = () => {
     const [timetableData, setTimetableData] = useState({"timetable": [], "timetableIndex": 0, "originalTimetable": [], "selectedCoursesData": []})
     const [advancedFilter, setAdvancedFilter] = useState({"allowConflict": false, "conflictCourses": [], "emptyDay": false,
-        "emptyDayCount" : 1, "showRoom" : true, "isLock": Array.from({length: 13},()=> Array.from({length: 5}, () => false))})
+        "emptyDayCount" : 1, "showRoom" : true, "isLock": Array.from({length: 13},()=> Array.from({length: 7}, () => false))})
     const [isLoading, setIsLoading] = useState(true)
     const [isTutorialOpen, setIsTutorialOpen] = useLocalStorage( "isTutorialCompleted",false)
     const [cachedFilters, setCachedFilters] = useLocalStorage("advancedFilter", {})
@@ -41,7 +41,7 @@ const App = () => {
     useEffect(() => {
         if (cachedFilters !== {}) {
             setAdvancedFilter(cachedFilters)
-            updateAdvancedFilter("isLock", Array.from({length: 13},()=> Array.from({length: 5}, () => false)))
+            updateAdvancedFilter("isLock", Array.from({length: 13},()=> Array.from({length: 7}, () => false)))
         }
     }, [])
 

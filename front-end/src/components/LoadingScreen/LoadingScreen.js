@@ -37,6 +37,9 @@ const LoadingScreen = ({ isLoading }) => {
                     <div></div>
                 </div>
             </div>
+            <div className={"text"}>
+                Loading...<br />If it takes longer than 10 seconds, server might be down.
+            </div>
         </div>
     )
 

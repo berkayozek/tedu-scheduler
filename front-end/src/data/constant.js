@@ -5,7 +5,9 @@ const daysToInt = {
     "Tu": 1,
     "We": 2,
     "Th": 3,
-    "Fr": 4
+    "Fr": 4,
+    "Sat": 5,
+    "Sun": 6
 }
 
 const days = [
@@ -13,7 +15,9 @@ const days = [
     "TUE",
     "WED",
     "THU",
-    "FRI"
+    "FRI",
+    "SAT",
+    "SUN"
 ]
 
 export {startTime, daysToInt, days}

@@ -87,7 +87,7 @@ const CourseSelectionTab = ({
             isLock : advancedFilter.isLock
         }
 
-        let copy = Array.from({length: 13},()=> Array.from({length: 5}, () => false))
+        let copy = Array.from({length: 13},()=> Array.from({length: 7}, () => false))
         copy[5][0] = !copy[5][0]
         updateAdvancedFilter("isLock", copy)
         updateAdvancedFilter("allowConflict", true)
