@@ -63,7 +63,13 @@ public class FetchService {
 
             List<Semester> semesterList = semesterService.findAll();
             for (Semester semester : semesterList) {
-                readCourses(semester);
+                try {
+                    readCourses(semester);
+                }
+                catch (FileNotFoundException ex) {
+                    System.out.println("Cannot find " + semester.getYear() + "_" + semester.getCode());
+                    continue;
+                }
             }
             return true;
         }catch (Exception e) {
@@ -90,15 +96,12 @@ public class FetchService {
     }
 
     private void readCourses(Semester semester) throws IOException {
+        System.out.println("Reading " + semester.getYear() + "_" + semester.getCode());
         FileInputStream file = new FileInputStream(new File(semester.getYear() + "_" + semester.getCode() + ".xls"));
         Workbook wb = null;
         try
         {
             wb = new HSSFWorkbook(file);
-        }
-        catch(FileNotFoundException ex)
-        {
-            ex.printStackTrace();
         }
         catch(IOException io)
         {
@@ -113,6 +116,14 @@ public class FetchService {
             String teachers = ReadCellData(sheet, i, 11);
             String rooms = ReadCellData(sheet, i, 12);
             String hours = ReadCellData(sheet, i, 13);
+            if (courseCode.equals("") || sectionCode.equals("")) {
+                continue;
+            }
+            if (!courseCode.equals(sectionCode.split("_")[0])) {
+                System.out.println(courseCode + "!= " + sectionCode.split("_")[0]);
+                System.out.println("Passed" + sectionCode + " for semester " + semester.getYear() + "/" + semester.getCode());
+                continue;
+            }
             System.out.println("Processing " + sectionCode + " for semester " + semester.getYear() + "/" + semester.getCode());
             List<String> stringList = new ArrayList<String>(Arrays.asList(teachers.split(",")));
             ArrayList<Instructor> instructors = new ArrayList<>();
@@ -138,6 +149,7 @@ public class FetchService {
 
             courseService.save(course);
         }
+        System.out.println("Done " + semester.getYear() + "_" + semester.getCode());
     }
 
     public String ReadCellData(Sheet sheet, int vRow, int vColumn) {
